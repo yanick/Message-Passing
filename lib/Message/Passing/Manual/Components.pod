@@ -95,7 +95,7 @@ the distribution:
 
 =head2 MUST by asynchronous.
 
-Your input or output B<MUST NOT> block in the course of it's normal operation. You should use L<AnyEvent>
+Your input or output B<MUST NOT> block in the course of its normal operation. You should use L<AnyEvent>
 to make your input or output asynchronous.
 
 If you are trying to convert a synchronous module into being an input, then you can often make it
