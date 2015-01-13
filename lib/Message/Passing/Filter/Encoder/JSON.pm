@@ -10,6 +10,7 @@ use namespace::clean -except => 'meta';
 with qw/
     Message::Passing::Role::Filter
     Message::Passing::Role::HasErrorChain
+    Message::Passing::Role::SerializeObject
 /;
 
 has pretty => (
@@ -31,14 +32,6 @@ sub filter {
     my ($self, $message) = @_;
     try {
         return $message unless ref($message);
-        if (blessed $message) { # FIXME - This should be moved out of here!
-            if ($message->can('pack')) {
-                $message = $message->pack;
-            }
-            elsif ($message->can('to_hash')) {
-                $message = $message->to_hash;
-            }
-        }
         $self->_json->encode( $message );
     }
     catch {

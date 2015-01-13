@@ -41,6 +41,32 @@ subtest structure => sub {
     is_deeply( ($cbct->messages)[-1], $struct, "content is good" ); 
 };
 
+{
+    package MyObject;
+
+    use Moo;
+
+    has 'foo' => (
+        is => 'ro',
+    );
+
+    sub pack { 
+        return {
+            foo => $_[0]->foo
+        }
+    }
+
+}
+
+
+subtest object => sub {
+    my $o = MyObject->new( foo => 'bar' );
+    $cbc->output_to->consume( $o );
+
+    is $cbct->message_count => 2, "message made it";
+    is_deeply( ($cbct->messages)[-1], $o, "content is good" ); 
+};
+
 
 done_testing;
 

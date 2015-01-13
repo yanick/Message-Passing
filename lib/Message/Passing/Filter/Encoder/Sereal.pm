@@ -1,8 +1,6 @@
 package Message::Passing::Filter::Encoder::Sereal;
 use Moo;
-use MooX::Types::MooseLike::Base qw( Bool HasMethods );
 use Sereal::Encoder;
-use Scalar::Util qw/ blessed /;
 use Try::Tiny;
 use Message::Passing::Exception::Encoding;
 use namespace::clean -except => 'meta';
@@ -10,6 +8,7 @@ use namespace::clean -except => 'meta';
 with qw/
     Message::Passing::Role::Filter
     Message::Passing::Role::HasErrorChain
+    Message::Passing::Role::SerializeObject
 /;
 
 has sereal_args => (
@@ -29,14 +28,6 @@ has _sereal => (
 sub filter {
     my ($self, $message) = @_;
     try {
-        if (blessed $message) { # FIXME - This should be moved out of here!
-            if ($message->can('pack')) {
-                $message = $message->pack;
-            }
-            elsif ($message->can('to_hash')) {
-                $message = $message->to_hash;
-            }
-        }
         $self->encode( $message );
     }
     catch {
