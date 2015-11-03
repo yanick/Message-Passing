@@ -1,6 +1,5 @@
 package Message::Passing::Filter::Encoder::Sereal;
 use Moo;
-use MooX::Types::MooseLike::Base qw( Bool HasMethods );
 use Sereal::Encoder;
 use Scalar::Util qw/ blessed /;
 use Try::Tiny;
